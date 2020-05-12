@@ -28,37 +28,39 @@ class HimarketApi:
 
     }
 
-    BASE_URL = 'http://development.himarket.club:3000/api/v1'
+    BASE_URL = 'https://james.himarket.club:3000/api/v1'
 
     SALES_RECEIPT = '{base}/sales_receipt'.format(base=BASE_URL)
     STORES = '{base}/admin/stores'.format(base=BASE_URL)
     TOKEN = '{base}/token'.format(base=BASE_URL)
     PRODUCTS = '{base}/admin/products'.format(base=BASE_URL)
 
-    token = ''
-    header = {
-        'Content-Type': 'application/json',
-        "authorization": "Bearer " + token
-    }
+    header = {}
 
-    def login(self):
+    def login(self) -> requests.Response:
         data = {
-            "email": "api-coop@himarket.com",
+            "email": "admin-public@himarket.club",
             "password": "qweqwe123"
         }
         re = requests.post(self.TOKEN, json=data)
         re.raise_for_status()
-        self.token = json.loads(re.content)['token']
+        token = json.loads(re.content)['token']
+        self.header = {
+            'Content-Type': 'application/json',
+            "authorization": "Bearer " + token
+        }
+        print(self.header)
+        return re
 
-    def store_get(self):
+    def store_get(self) -> requests.Response:
         re = requests.get(self.STORES, headers=self.header)
         return re
 
-    def store_post(self, json_post):
+    def store_post(self, json_post) -> requests.Response:
         re = requests.post(self.STORES, json=json_post, headers=self.header)
         return re
 
-    def product_post(self, product):
+    def product_post(self, product) -> requests.Response:
         re = requests.post(
             self.PRODUCTS,
             json={

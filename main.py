@@ -1,31 +1,22 @@
+from twisted.internet import task, reactor
+from threading import Lock
+
 from api import HimarketApi
 from json_loader import JsonLoader
-from twisted.internet import task, reactor
+from product_loader_thread import ProductLoader
 
 tmp_products_array = []
-
-
-def loop_thread():
-    if tmp_products_array:
-        product = tmp_products_array.pop(0)
-        print(product)
-    else:
-        reactor.stop()
+threads = []
+lock = Lock()
 
 
 if __name__ == "__main__":
     himarket_api = HimarketApi()
     json_loader = JsonLoader()
 
+    himarket_api.login()
     products = json_loader.get_products()
 
-    for i in range(10):
-        tmp_products_array.append(products[i])
-
-    himarket_api.login()
-    r = himarket_api.store_get()
-    print(r.content)
-
-    l = task.LoopingCall(loop_thread)
-    l.start(1)
-    reactor.run()
+    for i in range(4):
+        thread = ProductLoader(products=products)
+        thread.start()
