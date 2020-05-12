@@ -18,5 +18,5 @@ class ProductLoader(Thread):
                 product = self.products.pop(0)
             re = self.himarket_api.product_post(product)
             print(re.content)
-            time.sleep(0.1)
+            #time.sleep(0.1)
 
