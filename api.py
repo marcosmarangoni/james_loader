@@ -8,34 +8,16 @@ class HimarketApi:
         "password": "qweqwe123"
     }
 
-    # Sample de Store Post
-    store_post_json = {
-        "store":
-            {
-                "external_ref": "himarket_100",
-                "legal_name": "himarket teste 100",
-                "trading_name": "AV",
-                "document_number": "01234567890123",
-                "full_adress": "Rua Himarket 123",
-                "zip_code": "00000-000",
-                "phone_number": "(12)3456-7890",
-                "is_market": "true",
-                "is_pharma": "false",
-                "is_active": "false",
-                "is_billed": "false",
-                "address_number": "123"
-            }
-
-    }
-
     BASE_URL = 'https://james.himarket.club:3000/api/v1'
 
     SALES_RECEIPT = '{base}/sales_receipt'.format(base=BASE_URL)
     STORES = '{base}/admin/stores'.format(base=BASE_URL)
     TOKEN = '{base}/token'.format(base=BASE_URL)
     PRODUCTS = '{base}/admin/products'.format(base=BASE_URL)
+    CONSUMERS = '{base}/admin/consumers'.format(base=BASE_URL)
 
-    header = {}
+    def __init__(self):
+        self.header = {}
 
     def login(self) -> requests.Response:
         data = {
@@ -52,24 +34,29 @@ class HimarketApi:
         print(self.header)
         return re
 
-    def store_get(self) -> requests.Response:
-        re = requests.get(self.STORES, headers=self.header)
-        return re
-
-    def store_post(self, json_post) -> requests.Response:
-        re = requests.post(self.STORES, json=json_post, headers=self.header)
-        return re
-
     def product_post(self, product) -> requests.Response:
         re = requests.post(
             self.PRODUCTS,
             json={
-                "product": {
-                    "code": product['code'],
-                    "name": product['name'],
-                    "is_active": product['is_active'],
-                    "ean": product['ean']
-                }
+                "product": product
+            },
+            headers=self.header)
+        return re
+
+    def store_post(self, store) -> requests.Response:
+        re = requests.post(
+            self.STORES,
+            json={
+                "store": store
+            },
+            headers=self.header)
+        return re
+
+    def consumer_post(self, consumer) -> requests.Response:
+        re = requests.post(
+            self.CONSUMERS,
+            json={
+                "consumer": consumer
             },
             headers=self.header)
         return re

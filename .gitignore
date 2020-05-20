@@ -129,5 +129,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-JamesProducts1.json
-JamesProducts2.json
+/json_files
