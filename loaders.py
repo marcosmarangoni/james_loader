@@ -21,3 +21,10 @@ class ConsumerLoader(BaseLoader):
         re = self.himarket_api.consumer_post(item)
         print(re.content)
         return re
+
+
+class ReceiptsLoader(BaseLoader):
+    def load_request(self, item) -> requests.Response:
+        re = self.himarket_api.receipt_post(item)
+        print(re.content)
+        return re
