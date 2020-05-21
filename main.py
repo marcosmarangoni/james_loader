@@ -41,10 +41,10 @@ def load_people():
 def load_receipts():
     # 449798 receipts - First file
     receipts = JsonReader.get_receipts()
-    tmp_receipts = receipts[0:len(receipts)]
+    tmp_receipts = receipts[8785:len(receipts)]
     print(len(receipts))
 
-    for i in range(10):
+    for i in range(8):
         thread = ReceiptsLoader(array=tmp_receipts)
         thread.start()
 
