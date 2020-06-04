@@ -6,9 +6,9 @@ from sqlalchemy.exc import SQLAlchemyError
 def create_test():
     session = MySql().get_session()
     try:
-        brands = session.query(Brand).whereclause(Brand.id == 1)
-        for brand in brands:
-            print(brand)
+        newBrand = Brand(name='TestingOrm', code='123321123')
+        session.add(newBrand)
+        session.commit()
     except SQLAlchemyError as error:
         print(error)
     finally:
@@ -19,7 +19,7 @@ def create_test():
 def read_test():
     session = MySql().get_session()
     try:
-        brands = session.query(Brand).filter_by(id=1)
+        brands = session.query(Brand).all()
         for brand in brands:
             print(brand)
     except SQLAlchemyError as error:
@@ -31,9 +31,9 @@ def read_test():
 def update_test():
     session = MySql().get_session()
     try:
-        brands = session.query(Brand).whereclause(Brand.id == 1)
-        for brand in brands:
-            print(brand)
+        brand = session.query(Brand).first()
+        brand.name = 'TestBrandUpdate'
+        session.commit()
     except SQLAlchemyError as error:
         print(error)
     finally:
@@ -43,9 +43,9 @@ def update_test():
 def delete_test():
     session = MySql().get_session()
     try:
-        brands = session.query(Brand).whereclause(Brand.id == 1)
-        for brand in brands:
-            print(brand)
+        brand = session.query(Brand).first()
+        session.delete(brand)
+        session.commit()
     except SQLAlchemyError as error:
         print(error)
     finally:
@@ -54,4 +54,5 @@ def delete_test():
 
 
 if __name__ == '__main__':
+    delete_test()
     read_test()
