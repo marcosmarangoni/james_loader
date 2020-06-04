@@ -1,6 +1,6 @@
 from json_reader import JsonReader
 from loaders import ProductLoader, StoreLoader, ConsumerLoader, ReceiptsLoader
-from api import HimarketApi
+from himarket import HimarketApi
 
 
 def load_products():

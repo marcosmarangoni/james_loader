@@ -1,11 +1,8 @@
 from abc import abstractmethod
 from threading import Thread, Lock
 import requests
-import time
 
-from requests import Request
-
-from api import HimarketApi
+from himarket.api import HimarketApi
 
 
 class BaseLoader(Thread):
